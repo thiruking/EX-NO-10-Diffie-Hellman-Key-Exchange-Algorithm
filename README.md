@@ -20,38 +20,51 @@ To Implement Diffie Hellman Key Exchange Algorithm
 
 ## Program:
 ```C
-#include <stdio.h>
-#include <math.h>
-long long int power(long long int base, long long int exp, long long int mod) {
-    long long int result = 1;
-    for (int i = 0; i < exp; i++) {
-        result = (result * base) % mod;
-    }
-    return result;
+#include<stdio.h>
+
+// power mod
+long long power(long long b,long long e,long long m)
+{
+    long long r=1;
+    while(e--) r=(r*b)%m;
+    return r;
 }
-int main() {
-    long long int P, G, a, b; 
-    long long int A, B, secretA, secretB;
+
+int main()
+{
+    long long P,G,a,b,A,B,SA,SB;
+
     printf("Enter a prime number (P): ");
-    scanf("%lld", &P);
-    printf("Enter a primitive root of %lld (G): ", P);
-    scanf("%lld", &G);
+    scanf("%lld",&P);
+
+    printf("Enter a primitive root of %lld (G): ",P);
+    scanf("%lld",&G);
+
     printf("Enter private key for THIRUMALAI  (d): ");
-    scanf("%lld", &a);
+    scanf("%lld",&a);
+
     printf("Enter private key for SAN (s): ");
-    scanf("%lld", &b);
-    A = power(G, a, P);
-    B = power(G, b, P);
-    secretA = power(B, a, P);
-    secretB = power(A, b, P);
-    printf("\nPublic Key of THIRUMALAI (D): %lld", A);
-    printf("\nPublic Key of SAN: %lld", B);
-    printf("\n\nSecret Key for THIRUMALAI: %lld", secretA);
-    printf("\nSecret Key for SAN: %lld\n", secretB);
-    if (secretA == secretB)
+    scanf("%lld",&b);
+
+    // Public keys
+    A = power(G,a,P);
+    B = power(G,b,P);
+
+    // Secret keys
+    SA = power(B,a,P);
+    SB = power(A,b,P);
+
+    printf("\nPublic Key of THIRUMALAI (D): %lld",A);
+    printf("\nPublic Key of SAN: %lld",B);
+
+    printf("\n\nSecret Key for THIRUMALAI: %lld",SA);
+    printf("\nSecret Key for SAN: %lld\n",SB);
+
+    if(SA==SB)
         printf("\nSecret key successfully established!\n");
     else
         printf("\nError: Keys do not match.\n");
+
     return 0;
 }
 ```
